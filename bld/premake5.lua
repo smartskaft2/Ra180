@@ -18,8 +18,8 @@ project "Ra180"
     kind "ConsoleApp"
     language "C++"
     
-    targetdir ( "%{wrk.location}/bin/"     .. outputdir )
-    objdir    ( "%{wrk.location}/bin-int/" .. outputdir )
+    targetdir ( "%{wks.location}/bin/"     .. outputdir )
+    objdir    ( "%{wks.location}/bin-int/" .. outputdir )
     
     files
     {
@@ -56,9 +56,9 @@ newaction {
     description = "Clean the project build files",
     execute     = function ()
        print("Clean the build... ")
-       os.rmdir("%{wrk.location}/bin/*")
-       os.rmdir("%{wrk.location}/bin-int/*")
-       os.remove("%{wrk.location}/%{prj.name}.sln")
+       os.rmdir("%{wks.location}/bin/*")
+       os.rmdir("%{wks.location}/bin-int/*")
+       os.remove("%{wks.location}/%{prj.name}.sln")
        print("Done.")
     end
  }
