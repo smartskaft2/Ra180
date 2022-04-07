@@ -1,0 +1,14 @@
+# Build results
+/bin/
+/bin-int/
+
+# Visual Studio solutions
+*.sln
+
+# Visual Studio projects
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+
+# Visual Studio misc.
+/.vs/
