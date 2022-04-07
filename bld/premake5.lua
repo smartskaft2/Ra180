@@ -26,6 +26,11 @@ project "Ra180"
         "%{prj.location}/src/**.h",
         "%{prj.location}/src/**.cpp"
     }
+
+    includedirs
+    {
+        "%{prj.location}/vendors/spdlog/include"
+    }
     
     filter "system:windows"
         cppdialect "C++20"
