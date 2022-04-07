@@ -1,6 +1,6 @@
 # Build results
-/bin/
-/bin-int/
+/bld/bin/
+/bld/bin-int/
 
 # Visual Studio solutions
 *.sln
@@ -11,4 +11,4 @@
 *.vcxproj.filters
 
 # Visual Studio misc.
-/.vs/
+.vs/
