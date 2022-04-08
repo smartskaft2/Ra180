@@ -14,22 +14,25 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- PROJECT: Ra180 --
 project "Ra180"
-    location ".."
     kind "ConsoleApp"
     language "C++"
     
-    targetdir ( "%{wks.location}/bin/"     .. outputdir )
-    objdir    ( "%{wks.location}/bin-int/" .. outputdir )
+    targetdir ( "./bin/"     .. outputdir )
+    objdir    ( "./bin-int/" .. outputdir )
     
     files
     {
-        "%{prj.location}/src/**.h",
-        "%{prj.location}/src/**.cpp"
+        "../src/*.h",
+        "../src/*.cpp",
+        "../src/**.h"
+        "../src/**.cpp",
     }
 
     includedirs
     {
-        "%{prj.location}/vendors/spdlog/include"
+        "../src",
+        "../src/**",
+        "../vendors/spdlog/include"
     }
     
     filter "system:windows"
@@ -56,9 +59,10 @@ newaction {
     description = "Clean the project build files",
     execute     = function ()
        print("Clean the build... ")
-       os.rmdir("%{wks.location}/bin/*")
-       os.rmdir("%{wks.location}/bin-int/*")
-       os.remove("%{wks.location}/%{prj.name}.sln")
+       os.rmdir("./bin")
+       os.rmdir("./bin-int")
+       os.remove("../*.sln")
+       os.remove("../*.vcx*")
        print("Done.")
     end
  }
