@@ -24,8 +24,10 @@ project "Ra180"
     {
         "../src/*.h",
         "../src/*.cpp",
-        "../src/**.h"
+        "../src/**.h",
         "../src/**.cpp",
+        "../vendors/spdlog/include/**.h",
+        "../vendors/spdlog/include/**.cpp"
     }
 
     includedirs
