@@ -8,19 +8,19 @@
 namespace Ra180 {
 
 Event::Event(const Type type) 
-	: _type(type)
+    : _type(type)
 {
-	RA180_LOG_TRACE("Event created. Type: '{}'", toString(_type));
+    RA180_LOG_TRACE("Event: Creates event '{}'", toString(_type));
 }
 
 Event::Type Event::GetType() const
 {
-	return _type;
+    return _type;
 }
 
 std::ostream& Event::write(std::ostream& os) const
 {
-	return os << "Event (Type: " << _type << ')';
+    return os << "Event::Type::" << _type;
 }
 
 
