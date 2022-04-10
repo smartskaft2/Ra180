@@ -10,24 +10,23 @@ workspace "Radio180"
         "Distro" 
     }
 
-outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+-- Intermittent variables
+OutputFolderName = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- PROJECT: Ra180 --
 project "Ra180"
     kind "ConsoleApp"
     language "C++"
     
-    targetdir ( "./bin/"     .. outputdir )
-    objdir    ( "./bin-int/" .. outputdir )
-    
+    targetdir ( "bin/"     .. OutputFolderName )
+    objdir    ( "bin-int/" .. OutputFolderName )
+
     files
     {
         "../src/*.h",
         "../src/*.cpp",
         "../src/**.h",
         "../src/**.cpp",
-        "../vendors/spdlog/include/**.h",
-        "../vendors/spdlog/include/**.cpp"
     }
 
     includedirs
