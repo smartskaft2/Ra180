@@ -13,19 +13,19 @@ namespace Ra180 {
 		return ss.str();
 	}
 
-	template<>
+	template<> inline
 	std::string toString<const char*>(const char * const & obj)
 	{
 		return { obj };
 	}
 
-	template<>
+	template<> inline
 	std::string toString<std::string>(const std::string& obj)
 	{
 		return obj;
 	}
-
-	template<>
+	 
+	template<> inline
 	std::string toString<bool>(const bool& obj)
 	{
 		return { obj ? "true" : "false" };
