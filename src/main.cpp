@@ -1,4 +1,5 @@
 #include "Log.h"
+#include "Events/Event.h"
 
 using namespace Ra180;
 
@@ -11,5 +12,7 @@ int main(int argc, char* argv[])
 		RA180_LOG_INFO("Input argument #{:d}: {}", a, argv[a]);
 	}
 
+	Event event{ Event::Type::Undefined };
+	std::cout << event;
 	return 0;
 }
