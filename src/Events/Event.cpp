@@ -28,19 +28,21 @@ std::ostream& Event::write(std::ostream& os) const
 
 std::ostream& operator<<(std::ostream& os, const Ra180::Event& event)
 {
-	return event.write(os);
+    return event.write(os);
 }
 
 std::ostream& operator<<(std::ostream& os, const Ra180::Event::Type type)
 {
-	using Event = Ra180::Event;
-	switch (type)
-	{
-		case Event::Type::Undefined: return os << "Undefined";
+    switch (type)
+    {
+        case Ra180::Event::Type::Undefined: return os << "Undefined";
+        case Ra180::Event::Type::PowerOff:  return os << "PowerOff";
+        case Ra180::Event::Type::KLAR:      return os << "KLAR";
+        case Ra180::Event::Type::FRÅN:      return os << "FRÅN";
 
-		default:
-			std::stringstream ss;
-			ss << "Undefined operator<< for event type with value " << static_cast<unsigned int>(type);
-			throw std::logic_error(ss.str());
-	}
+        default:
+            std::stringstream ss;
+            ss << "Undefined operator<< for event type with value " << static_cast<unsigned int>(type);
+            throw std::logic_error(ss.str());
+    }
 }

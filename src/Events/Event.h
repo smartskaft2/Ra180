@@ -4,26 +4,29 @@
 
 namespace Ra180 {
 
-	class Event
-	{
-		public:
-			enum class Type;
+    class Event
+    {
+        public:
+            enum class Type;
 
-			Event(const Type type);
+            Event(const Type type);
 
-			Type GetType() const;
+            Type GetType() const;
 
-			virtual std::ostream& write(std::ostream& os) const;
+            virtual std::ostream& write(std::ostream& os) const;
 
-		private:
-			const Type _type;
-	};
+        private:
+            const Type _type;
+    };
 
-	// Event type definition
-	enum class Event::Type
-	{
-		Undefined = 0
-	};
+    // Event type definition
+    enum class Event::Type
+    {
+        Undefined = 0,
+        PowerOff,
+        FRÅN,
+        KLAR
+    };
 
 } // namespace Ra180
 
