@@ -11,7 +11,7 @@ namespace Ra180 {
     class LogDisplay : public IDisplay
     {
     public:
-        LogDisplay(std::filesystem::path displayFilePath, const unsigned int displayWidth = 8);
+        LogDisplay(std::filesystem::path displayFilePath = "display.txt", const unsigned int displayWidth = 8);
 
         void Clear() override;
         void Print(const std::string& text) override;

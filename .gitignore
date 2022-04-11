@@ -2,6 +2,9 @@
 /bld/bin/
 /bld/bin-int/
 
+# LogDisplay output file
+display.txt
+
 # Visual Studio solutions
 *.sln
 
