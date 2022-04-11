@@ -41,6 +41,11 @@ namespace Ra180 {
         _stateTransitions.push_back(transition);
     }
 
+    void State::ClearTransitions()
+    {
+        _stateTransitions.clear();
+    }
+
     bool State::TransitionOK(const StateTransition& transition, const Event& event)
     {
         if (transition._eventType == event.GetType())

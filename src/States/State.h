@@ -12,7 +12,7 @@ namespace Ra180 {
     class State : public IState
     {
     public:
-        explicit State(std::string name = "Unknown");
+        explicit State(std::string name);
 
     public:
         const std::string& GetName() const override;
@@ -22,6 +22,7 @@ namespace Ra180 {
 
     //protected:
         void AddTransition(const StateTransition& transition);
+        void ClearTransitions();
 
     private:
         static bool TransitionOK(const StateTransition& transition, const Event& event);
