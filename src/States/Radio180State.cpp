@@ -1,6 +1,7 @@
 #include "Radio/Radio180.h"
 #include "Radio/IDisplay.h"
 #include "States/Radio180State.h"
+#include "States/FRÅN.h"
 #include "Utils/Log.h"
 
 #include <string>
@@ -11,6 +12,8 @@ namespace Ra180 {
     Radio180State::Radio180State(std::string name, std::string displayText, Radio180 & radio)
         : State(std::move(name)), _displayText(std::move(displayText)), _radio(radio)
     {
+        // Go to state FRÅN from any state for PowerOff events
+        AddTransition({ Event::Type::PowerOff, {}, {}, [&] { return CreateState<FRÅN>(); } });
     }
 
     void Radio180State::Enter()
