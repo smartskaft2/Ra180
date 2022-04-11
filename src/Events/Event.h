@@ -25,7 +25,8 @@ namespace Ra180 {
         Undefined = 0,
         PowerOff,
         FRÅN,
-        KLAR
+        KLAR,
+        SKYDD
     };
 
 } // namespace Ra180
