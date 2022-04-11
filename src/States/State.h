@@ -15,6 +15,7 @@ namespace Ra180 {
         explicit State(std::string name = "Unknown");
 
     public:
+        const std::string& GetName() const override;
         bool OnEvent(std::unique_ptr<IState>& pNextState, const Event& event) override;
         void Enter() override;
         void Exit() override;

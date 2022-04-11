@@ -20,6 +20,11 @@ namespace Ra180 {
         RA180_LOG_TRACE("State: Creates state '{}'", _name);
     }
 
+    const std::string& State::GetName() const
+    {
+        return _name;
+    }
+
     void State::Enter()
     {
         RA180_LOG_TRACE("State: Enters state '{}'", _name);
