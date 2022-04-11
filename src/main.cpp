@@ -1,6 +1,7 @@
 #include "Log.h"
 #include "Events/Event.h"
 #include "States/State.h"
+#include "States/StateMachine.h"
 #include "Utils/toString.h"
 
 #include <memory>
@@ -18,33 +19,36 @@ int main(int argc, char* argv[])
 
     Event event{ Event::Type::Undefined };
 
-    State state{"Attila"};
-    state.AddTransition(StateTransition{ Event::Type::Undefined,
-                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Guard #1:  Undefined #1 (returns true)");  return true; }, 
-                                          [](const auto&) { RA180_LOG_DEBUG("Transition Guard #2:  Undefined #1 (returns false)"); return false; }},
-                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Action #1: Undefined #1"); }},
-                                         []() { return std::make_unique<State>(); }});
-    state.AddTransition(StateTransition{ Event::Type::Undefined,
-                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Guard #1:  Undefined #2 (returns true)"); return true; },
-                                          [](const auto&) { RA180_LOG_DEBUG("Transition Guard #2:  Undefined #2 (returns true)"); return true; }},
-                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Action #1: Undefined #2"); },
-                                          [](const auto&) { RA180_LOG_DEBUG("Transition Action #2: Undefined #2"); }},
-                                         []() { return std::make_unique<State>(); } });
-    state.AddTransition(StateTransition{ Event::Type::PowerOff,
-                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Guard:  PowerOff #1 (returns true)"); return true; }},
-                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Action: PowerOff #1"); }},
-                                         []() { return std::make_unique<State>(); } });
+    auto pFirst = std::make_unique<State>("First");
+    State* pSecond = new State("Second"); // State machine will own memory
+    State* pThird  = new State("Third");  // State machine will own memory
 
+    pFirst->AddTransition(StateTransition{ Event::Type::Undefined,
+                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Guard  #1: Undefined (returns true)");  return true; }},
+                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Action #1: Undefined "); }},
+                                         [&]() { return std::unique_ptr<State>{pSecond}; } });
+    pSecond->AddTransition(StateTransition{ Event::Type::PowerOff,
+                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Guard  #1: PowerOff (returns true)"); return true; }},
+                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Action #1: PowerOff"); }},
+                                         [&]() { return std::unique_ptr<State>{pThird}; } });
+    pThird->AddTransition(StateTransition{ Event::Type::FRÅN,
+                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Guard  #1: FRÅN (returns true)"); return true; }},
+                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Action #1: FRÅN"); }},
+                                         [&]() { return std::unique_ptr<State>{nullptr}; } });
+    pThird->AddTransition(StateTransition{ Event::Type::KLAR,
+                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Guard:  KLAR #1 (returns true)"); return true; }},
+                                         {[](const auto&) { RA180_LOG_DEBUG("Transition Action: KLAR #1"); }},
+                                         []() { return std::make_unique<State>("Final State"); }});
 
-    std::unique_ptr<IState> pNextState{nullptr};
+    StateMachine stateMachine{};
+    stateMachine.Initialize(std::move(pFirst));
 
-    const Event eventUndefined{ Event::Type::Undefined };
-    const Event eventPowerOff{  Event::Type::PowerOff };
-    const Event evenKlar{        Event::Type::KLAR };
-
-    RA180_LOG_DEBUG("OnEvent return value: {}", toString(state.OnEvent(pNextState, eventUndefined)).c_str());
-    RA180_LOG_DEBUG("OnEvent return value: {}", toString(state.OnEvent(pNextState, eventPowerOff)).c_str());
-    RA180_LOG_DEBUG("OnEvent return value: {}", toString(state.OnEvent(pNextState, evenKlar)).c_str());
+    stateMachine.OnEvent(Event::Type::Undefined);
+    stateMachine.OnEvent(Event::Type::PowerOff);
+    stateMachine.OnEvent(Event::Type::PowerOff);
+    stateMachine.OnEvent(Event::Type::Undefined);
+    stateMachine.OnEvent(Event::Type::FRÅN);
+    stateMachine.OnEvent(Event::Type::KLAR);
 
     return 0;
 }
