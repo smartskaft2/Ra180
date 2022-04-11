@@ -75,10 +75,11 @@ namespace Ra180 {
                     action(event);
                 }
                 pNextState = std::move(transition._nextStateCreationCallback());
+                RA180_LOG_TRACE("State: State '{}' consumed event '{}'", _name, toString(event));
                 return true;
             }
         }
-
+        RA180_LOG_TRACE("State: State '{}' returned event '{}'", _name, toString(event));
         return false;
     };
 
