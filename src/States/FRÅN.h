@@ -1,12 +1,12 @@
 #pragma once
 
-#include "States/Radio180State.h"
+#include "States/ModeState.h"
 
 namespace Ra180 {
 
     class Radio180;
 
-    class FRÅN : public Radio180State
+    class FRÅN : public ModeState
     {
     public:
         FRÅN(Radio180& radio);

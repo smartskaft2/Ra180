@@ -3,7 +3,7 @@
 #include "Radio/Radio180.h"
 #include "States/FRÅN.h"
 #include "States/KLAR.h"
-#include "States/Radio180State.h"
+#include "States/ModeState.h"
 #include "States/StateTransition.h"
 #include "Utils/Log.h"
 
@@ -18,7 +18,7 @@ namespace Ra180 {
         }
     } // namespace
 
-    FRÅN::FRÅN(Radio180& radio) : Radio180State("FRÅN", "", radio)
+    FRÅN::FRÅN(Radio180& radio) : ModeState("FRÅN", "", radio, Radio180::Mode::FRÅN)
     {
         StateTransition transitionToKLAR{};
         transitionToKLAR._eventType                 = Event::Type::KeyEvent;
