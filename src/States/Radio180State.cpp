@@ -5,6 +5,8 @@
 #include "Radio/IDisplay.h"
 #include "States/Radio180State.h"
 #include "States/FRÅN.h"
+#include "States/KLAR.h"
+#include "States/SKYDD.h"
 #include "Utils/Log.h"
 
 #include <string>
@@ -32,6 +34,18 @@ namespace Ra180 {
     {
         RA180_LOG_TRACE("Radio180State: Clearing display");
         _radio._pDisplay->Clear();
+    }
+
+    std::unique_ptr<IState> Radio180State::ReturnToMode()
+    {
+        switch (_radio.GetMode())
+        {
+            case (Radio180::Mode::FRÅN):  return std::make_unique<FRÅN>(_radio);
+            case (Radio180::Mode::KLAR):  return std::make_unique<KLAR>(_radio);
+            case (Radio180::Mode::SKYDD): return std::make_unique<SKYDD>(_radio);
+            default:
+                throw std::logic_error("Unsupported radio mode.");
+        }
     }
 
     bool Radio180State::IsNumberKeyGuard(const Event& event)
