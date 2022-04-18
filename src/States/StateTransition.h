@@ -11,8 +11,8 @@ namespace Ra180 {
 
     struct StateTransition
     {
-        using GuardCallback         = std::function<bool(Event)>;
-        using ActionCallback        = std::function<void(Event)>;
+        using GuardCallback         = std::function<bool(const Event&)>;
+        using ActionCallback        = std::function<void(const Event&)>;
         using StateCreationCallback = std::function<std::unique_ptr<IState>()>;
 
         Event::Type                 _eventType{};
