@@ -20,6 +20,9 @@ namespace Ra180 {
         void Enter() override;
         void Exit() override;
 
+    protected:
+        using KeyPressedGuard = StateTransition::KeyPressedGuard;
+
     //protected:
         void AddTransition(const StateTransition& transition);
         void ClearTransitions();
