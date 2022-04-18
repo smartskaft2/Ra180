@@ -1,41 +1,28 @@
 #include "Events/Event.h"
+#include "Events/KeyEvent.h"
+#include "OS/WindowsKeyboardManager.h"
 #include "Radio/Radio180.h"
 #include "Radio/LogDisplay.h"
 #include "States/State.h"
 #include "States/StateMachine.h"
 #include "States/FRÅN.h"
+#include "UI/KeyCode.h"
+#include "UI/KeyboardManager.h"
 #include "Utils/Log.h"
 #include "Utils/toString.h"
+#include "Utils/sleepUntil.h"
 
 #include <memory>
+#include <chrono>
 
 using namespace Ra180;
+using namespace std::chrono_literals;
 
-Event::Type ToEvent(const std::string& str)
-{
-    if (0 == str.compare("PowerOff"))
-    {
-        return Event::Type::PowerOff;
-    }
-    if (0 == str.compare("FRÅN"))
-    {
-        return Event::Type::FRÅN;
-    }
-    if (0 == str.compare("KLAR"))
-    {
-        return Event::Type::KLAR;
-    }
-    if (0 == str.compare("SKYDD"))
-    {
-        return Event::Type::SKYDD;
-    }
-    return static_cast<Event::Type>(-1);
-}
 
 int main(int argc, char* argv[])
 {
     Log::Init();
-
+   
     RA180_LOG_DEBUG("-----------------------------------------------");
     RA180_LOG_DEBUG("Radio180 app started");
     for (int a{}; a < (argc-1); ++a)
@@ -48,28 +35,46 @@ int main(int argc, char* argv[])
 
     StateMachine stateMachine{};
     stateMachine.Initialize(std::make_unique<FRÅN>(radio));
+    
+    WindowsKeyboardManager keyboardManager{ 290ms };
 
-    std::string input;
-    while (true)
+    using engineRate = std::chrono::duration<int, std::ratio<1, 30>>;
+    auto  timePoint = std::chrono::system_clock::now() + engineRate{ 1 };
+
+    KeyCode pressedKey;
+    bool aborted{ false };
+    while (!aborted)
     {
-        RA180_LOG_DEBUG("\n NEW INPUT:");
-        if (std::getline(std::cin, input))
+        if (keyboardManager.pollSingleKeyPress(pressedKey))
         {
-            if (0 == input.compare("exit"))
+            RA180_LOG_DEBUG("Key pressed: {}", toString(pressedKey));
+            
+            // Special key press: Escape -> Shut down program if radio is already shut off. Otherwise, shut it off.
+            if (pressedKey == KeyCode::Escape)
             {
-                break;
+                aborted = (radio.GetMode() == Radio180::Mode::FRÅN);
+                if (!aborted)
+                {
+                    RA180_LOG_DEBUG("User shut off power to the radio with the [ESC].");
+                    RA180_LOG_DEBUG("Press [UP] to start it again, or [ESC] again to terminate the program.");
+                    stateMachine.OnEvent(Event::Type::PowerOff);
+                }
             }
 
-            const Event::Type newEvent = ToEvent(input);
-            
-            if (newEvent > static_cast<Event::Type>(-1))
+            // Else, notify current state of key event
+            else
             {
-                RA180_LOG_DEBUG("Event '{}' handled: {}", toString(newEvent), toString(stateMachine.OnEvent(newEvent)));
+                stateMachine.OnEvent(KeyEvent{ pressedKey });
             }
         }
+
+        // Sleep until next time to run engine
+        SleepUntil(timePoint);
+        timePoint += engineRate{ 1 };
     }
 
     RA180_LOG_DEBUG("User terminated the program. Click [Enter] to exit...");
+    std::string input;
     std::getline(std::cin, input);
 
     return 0;
