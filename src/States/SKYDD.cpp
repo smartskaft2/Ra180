@@ -9,7 +9,7 @@ namespace Ra180 {
 
     SKYDD::SKYDD(Radio180& radio) : Radio180State("SKYDD", "skydddddddd", radio)
     {
-        AddTransition({ Event::Type::KLAR, {}, {}, [&]{ return CreateState<KLAR>(); } });
+        AddTransition({ Event::Type::KeyEvent, {KeyPressedGuard(KeyCode::ArrowDown)},    {}, [&]{ return CreateState<KLAR>(); }});
     }
 
 } // namespace Ra180
