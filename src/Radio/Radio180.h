@@ -25,6 +25,7 @@ namespace Ra180 {
         float GetVoltage() const;
         Mode GetMode() const;
         void SetMode(const Mode mode);
+        IDisplay& GetDisplay();
 
     private:
         std::unique_ptr<IDisplay> _pDisplay;

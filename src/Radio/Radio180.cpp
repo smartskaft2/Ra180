@@ -32,4 +32,9 @@ namespace Ra180 {
         _mode = mode;
     }
 
+    IDisplay& Radio180::GetDisplay()
+    {
+        return *_pDisplay;
+    }
+
 } // namespace Ra180
