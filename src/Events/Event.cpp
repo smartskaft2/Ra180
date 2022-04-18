@@ -13,6 +13,11 @@ Event::Event(const Type type)
     RA180_LOG_TRACE("Event: Creates event '{}'", toString(_type));
 }
 
+Event::~Event()
+{
+    RA180_LOG_TRACE("Event: Destroys event '{}'", toString(_type));
+}
+
 Event::Type Event::GetType() const
 {
     return _type;

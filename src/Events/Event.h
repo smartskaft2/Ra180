@@ -10,6 +10,7 @@ namespace Ra180 {
             enum class Type;
 
             Event(const Type type);
+            virtual ~Event();
 
             Type GetType() const;
 
