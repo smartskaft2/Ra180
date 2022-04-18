@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Events/Event.h"
+#include "Radio/Radio180.h"
 #include "States/State.h"
 
 #include <string>
 #include <memory>
 
 namespace Ra180 {
-
-    class Radio180;
 
     class Radio180State : public State
     {
@@ -20,7 +19,7 @@ namespace Ra180 {
     
     protected:
         template<typename TState, typename... TArgs>
-        std::unique_ptr<TState> CreateState(TArgs&&... args)
+        std::unique_ptr<IState> CreateState(TArgs&&... args)
         {
             return std::make_unique<TState>(_radio, std::forward<TArgs>(args)...);
         }
