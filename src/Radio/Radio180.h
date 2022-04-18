@@ -15,16 +15,21 @@ namespace Ra180 {
     class Radio180
     {
         friend class Radio180State;
+    public:
+        enum class Mode  { FRÅN, KLAR, SKYDD };
 
     public:
         Radio180(std::unique_ptr<IDisplay> pDisplay);
 
     public:
         float Voltage() const;
+        Mode GetMode() const;
+        void SetMode(const Mode mode);
 
     private:
         std::unique_ptr<IDisplay> _pDisplay;
         float _batteryLevel{ 0.9f };
+        Mode _mode{ Mode::FRÅN };
     };
 
 } // namespace Ra180
