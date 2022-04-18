@@ -1,3 +1,6 @@
+
+#include "Events/KeyEvent.h"
+#include "UI/KeyCode.h"
 #include "Radio/Radio180.h"
 #include "Radio/IDisplay.h"
 #include "States/Radio180State.h"
@@ -29,6 +32,19 @@ namespace Ra180 {
     {
         RA180_LOG_TRACE("Radio180State: Clearing display");
         _radio._pDisplay->Clear();
+    }
+
+    bool Radio180State::IsNumberKeyGuard(const Event& event)
+    {
+        if (event.GetType() == Event::Type::KeyEvent)
+        {
+            const KeyEvent& keyEvent = dynamic_cast<const KeyEvent&>(event);
+            if (KeyCode::NumPad_0 <= keyEvent.GetKeyCode() && keyEvent.GetKeyCode() <= KeyCode::NumPad_9) // ToDo: Make HMIID dependent
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 } // namespace Ra180

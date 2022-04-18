@@ -24,6 +24,8 @@ namespace Ra180 {
             return std::make_unique<TState>(_radio, std::forward<TArgs>(args)...);
         }
 
+        static bool IsNumberKeyGuard(const Event& event);
+
     protected:
         std::string _displayText;
         Radio180&   _radio;
