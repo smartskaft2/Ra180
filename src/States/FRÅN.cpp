@@ -21,9 +21,8 @@ namespace Ra180 {
     FRÅN::FRÅN(Radio180& radio) : ModeState("FRÅN", "", radio, Radio180::Mode::FRÅN)
     {
         StateTransition transitionToKLAR{};
-        transitionToKLAR._eventType                 = Event::Type::KeyEvent;
-        transitionToKLAR._guardCallbacks            = { KeyPressedGuard{KeyCode::ArrowUp},
-                                                        [&](const Event&) { return BatteryOK(this->_radio); } };
+        transitionToKLAR._eventType      = Event::Type::KeyEvent;
+        transitionToKLAR._guardCallbacks = { KeyPressedGuard{KeyCode::ArrowUp}, [&](const Event&) { return BatteryOK(this->_radio); } };
         transitionToKLAR._nextStateCreationCallback = [&]{ return CreateState<KLAR>(); };
 
         ClearTransitions(); // Remove transition to self
