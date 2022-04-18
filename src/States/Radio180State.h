@@ -18,6 +18,8 @@ namespace Ra180 {
         void Exit() override;
     
     protected:
+        using HMIID = Radio180::HMIID;
+
         template<typename TState, typename... TArgs>
         std::unique_ptr<IState> CreateState(TArgs&&... args)
         {
