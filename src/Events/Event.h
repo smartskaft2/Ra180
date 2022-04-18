@@ -24,6 +24,7 @@ namespace Ra180 {
     enum class Event::Type
     {
         Undefined = 0,
+        KeyEvent,
         PowerOff,
         FRÅN,
         KLAR,

@@ -41,6 +41,7 @@ std::ostream& operator<<(std::ostream& os, const Ra180::Event::Type type)
     switch (type)
     {
         case Ra180::Event::Type::Undefined: return os << "Undefined";
+        case Ra180::Event::Type::KeyEvent:  return os << "KeyEvent";
         case Ra180::Event::Type::PowerOff:  return os << "PowerOff";
         case Ra180::Event::Type::KLAR:      return os << "KLAR";
         case Ra180::Event::Type::FRÅN:      return os << "FRÅN";
