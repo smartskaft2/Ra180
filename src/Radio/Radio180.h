@@ -22,7 +22,7 @@ namespace Ra180 {
         Radio180(std::unique_ptr<IDisplay> pDisplay);
 
     public:
-        float Voltage() const;
+        float GetVoltage() const;
         Mode GetMode() const;
         void SetMode(const Mode mode);
 

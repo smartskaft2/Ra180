@@ -12,7 +12,7 @@ namespace Ra180 {
     namespace {
         bool BatteryOK(const Radio180& radio)
         {
-            const float voltage = radio.Voltage();
+            const float voltage = radio.GetVoltage();
             RA180_LOG_TRACE("State FRÅN: Battery voltage is {:02.1f} (Threshold: {:02.1f})", voltage, MIN_BATTERY_VOLTAGE_V);
             return voltage >= MIN_BATTERY_VOLTAGE_V;
         }

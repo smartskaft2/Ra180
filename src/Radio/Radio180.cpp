@@ -17,7 +17,7 @@ namespace Ra180 {
         RA180_LOG_TRACE("Radio created");
     };
 
-    float Radio180::Voltage() const
+    float Radio180::GetVoltage() const
     {
         return MIN_BATTERY_VOLTAGE_V + _batteryLevel * (MAX_BATTERY_VOLTAGE_V - MIN_BATTERY_VOLTAGE_V);
     }
