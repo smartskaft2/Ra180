@@ -48,18 +48,20 @@ namespace Ra180 {
 
     bool State::TransitionOK(const StateTransition& transition, const Event& event)
     {
+        bool transitionOK{ false };
         if (transition._eventType == event.GetType())
         {
+            transitionOK = true;
             for (const auto& satisfiesGuard : transition._guardCallbacks)
             {
                 if (!satisfiesGuard(event))
                 {
+                    transitionOK = false;
                     break;
                 }
             }
-            return true;
         }
-        return false;
+        return transitionOK;
     }
 
     bool State::OnEvent(std::unique_ptr<IState>& pNextState, const Event& event)
@@ -74,7 +76,10 @@ namespace Ra180 {
                 {
                     action(event);
                 }
-                pNextState = std::move(transition._nextStateCreationCallback());
+                if (transition._nextStateCreationCallback)
+                {
+                    pNextState = std::move(transition._nextStateCreationCallback());
+                }
                 RA180_LOG_TRACE("State: State '{}' consumed event '{}'", _name, toString(event));
                 return true;
             }

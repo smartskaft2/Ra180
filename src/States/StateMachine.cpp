@@ -22,6 +22,7 @@ namespace Ra180 {
             throw std::logic_error("Trying to initialize the state machine more than once.");
         }
     }
+
     bool StateMachine::OnEvent(const Event& event)
     {
         if (!_currentState)
@@ -40,14 +41,12 @@ namespace Ra180 {
                 _currentState->Enter();
                 RA180_LOG_TRACE("State machine: Transition to '{}' finished.", _currentState->GetName());
             }
-            else
-            {
-                RA180_LOG_ERROR("State '{}' did not set a new state while consuming the event '{}'.", 
-                                _currentState->GetName(), 
-                                toString(event));
-            }
+            return true;
         }
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
 } // namespace Ra180
