@@ -43,6 +43,7 @@ std::ostream& operator<<(std::ostream& os, const Ra180::KeyCode keyCode)
         case KeyCode::T:    return os << 'T';
         case KeyCode::U:    return os << 'U';
         case KeyCode::V:    return os << 'V';
+        case KeyCode::W:    return os << 'W';
         case KeyCode::X:    return os << 'X';
         case KeyCode::Y:    return os << 'Y';
         case KeyCode::Z:    return os << 'Z';

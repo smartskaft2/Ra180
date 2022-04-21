@@ -47,6 +47,7 @@ namespace Ra180 {
                 case KeyCode::T:    return wchar = 'T';
                 case KeyCode::U:    return wchar = 'U';
                 case KeyCode::V:    return wchar = 'V';
+                case KeyCode::W:    return wchar = 'W';
                 case KeyCode::X:    return wchar = 'X';
                 case KeyCode::Y:    return wchar = 'Y';
                 case KeyCode::Z:    return wchar = 'Z';
