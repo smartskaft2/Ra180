@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <string>
 #include <stdexcept>
+#include <mutex>
 
 namespace Ra180 {
 
@@ -20,6 +21,7 @@ namespace Ra180 {
     private:
         const std::filesystem::path _displayFilePath;
         const unsigned int _displayWidth;
+        std::mutex _mutex{};
     };
 
 } // namespace Ra180 

@@ -6,6 +6,8 @@
 #include <fstream>
 #include <string>
 #include <stdexcept>
+#include <mutex>
+#include <thread>
 
 namespace Ra180 {
 
@@ -31,6 +33,7 @@ namespace Ra180 {
 
     void LogDisplay::Print(const std::string& text)
     {
+        std::lock_guard<std::mutex> lock{ _mutex };
         std::ofstream displayFile{ _displayFilePath, std::ios_base::app };
         if (displayFile.is_open())
         {
