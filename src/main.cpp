@@ -11,6 +11,8 @@
 #include "Utils/Log.h"
 #include "Utils/toString.h"
 #include "Utils/sleepUntil.h"
+#include "Utils/Timer.h"
+#include "Utils/FlashingString.h"
 
 #include <memory>
 #include <chrono>
@@ -41,6 +43,9 @@ int main(int argc, char* argv[])
     using engineRate = std::chrono::duration<int, std::ratio<1, 30>>;
     auto  timePoint = std::chrono::system_clock::now() + engineRate{ 1 };
 
+    Timer timer{};
+    FlashingString flashingString{ radio.GetDisplay(), timer };
+
     KeyCode pressedKey;
     bool aborted{ false };
     while (!aborted)
@@ -59,6 +64,28 @@ int main(int argc, char* argv[])
                     RA180_LOG_DEBUG("Press [UP] to start it again, or [ESC] again to terminate the program.");
                     stateMachine.OnEvent(Event::Type::PowerOff);
                 }
+            }
+
+            else if (pressedKey == KeyCode::S)
+            {
+                if (flashingString.IsFlashing())
+                {
+                    flashingString.Stop();
+                }
+                else
+                {
+                    flashingString.Start();
+                }
+            }
+
+            else if (pressedKey == KeyCode::Delete)
+            {
+                flashingString.Pop();
+            }
+
+            else if (KeyCode::A <= pressedKey && pressedKey <= KeyCode::Ö)
+            {
+                flashingString.Append(toString(pressedKey));
             }
 
             // Else, notify current state of key event
