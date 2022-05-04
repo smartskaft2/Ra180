@@ -1,8 +1,8 @@
 
 #include "Events/Event.h"
 #include "Radio/Radio180.h"
-#include "States/FRÅN.h"
-#include "States/KLAR.h"
+#include "States/Concrete/FRÅN.h"
+#include "States/Concrete/KLAR.h"
 #include "States/ModeState.h"
 #include "States/StateTransition.h"
 #include "Utils/Log.h"

@@ -2,6 +2,8 @@
 
 #include "States/Radio180State.h"
 #include "Utils/Timer.h"
+#include "Utils/Timee.h"
+#include "Utils/Clock.h"
 
 #include <chrono>
 
@@ -11,11 +13,6 @@ namespace Ra180 {
 
     class TID : public Radio180State
     {
-        friend class TIDChange;
-
-        using clock      = std::chrono::system_clock;
-        using time_point = std::chrono::time_point<clock>;
-
     public:
         TID(Radio180& radio);
 
@@ -23,13 +20,11 @@ namespace Ra180 {
         void Exit() override;
 
     private:
-        static std::string StringifyTime(time_point time);
+        static std::string StringifyTime(Time::TimePoint time);
 
     private:
-        time_point _time;
-        Timer      _timer{};
-        int        _timeoutID{ -1 };
+        Clock& _clock;
+        int    _tickedCallbackID{ -1 };
     };
-
 
 } // namespace Ra180
