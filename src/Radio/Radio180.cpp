@@ -1,6 +1,7 @@
 #include "Radio/IDisplay.h"
 #include "Radio/Radio180.h"
 #include "Utils/Log.h"
+#include "Utils/Clock.h"
 
 #include <memory>
 #include <stdexcept>
@@ -35,6 +36,16 @@ namespace Ra180 {
     IDisplay& Radio180::GetDisplay()
     {
         return *_pDisplay;
+    }
+
+    const Clock& Radio180::GetClock() const
+    {
+        return _clock;
+    }
+
+    Clock& Radio180::GetClock()
+    {
+        return _clock;
     }
 
 } // namespace Ra180

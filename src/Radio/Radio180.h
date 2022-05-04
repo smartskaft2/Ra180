@@ -2,6 +2,7 @@
 
 #include "Radio/IDisplay.h"
 #include "UI/KeyCode.h"
+#include "Utils/Clock.h"
 
 #include <memory>
 
@@ -29,10 +30,14 @@ namespace Ra180 {
         void SetMode(const Mode mode);
         IDisplay& GetDisplay();
 
+        const Clock& GetClock() const;
+        Clock& GetClock();
+
     private:
         std::unique_ptr<IDisplay> _pDisplay;
         float _batteryLevel{ 0.9f };
         Mode _mode{ Mode::FRÅN };
+        Clock _clock{};
     };
 
     constexpr KeyCode ToKeyCode(const Radio180::HMIID hmiid, const bool throwOnFailure = true)
