@@ -9,9 +9,6 @@
 
 namespace Ra180 {
 
-    /// <summary>
-    ///  sdasdasd
-    /// </summary>
     class Timer
     {
     public:
@@ -20,7 +17,7 @@ namespace Ra180 {
         int SetTimeout(const std::chrono::milliseconds timeout,
                        const std::function<void()>     callback = nullptr,
                        const bool                      recurring = false);
-        bool UnsetTimeout(const int timeoutID, const bool suppressWarning = false);
+        bool StopTimeout(const int timeoutID, const bool suppressWarning = false);
 
     private:
         using Clock = std::chrono::system_clock;

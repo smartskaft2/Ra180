@@ -66,7 +66,7 @@ namespace Ra180 {
         return id;
     }
 
-    bool Timer::UnsetTimeout(const int timeoutID, const bool suppressWarning)
+    bool Timer::StopTimeout(const int timeoutID, const bool suppressWarning)
     {
         bool timeoutChanged{ false };
         {
