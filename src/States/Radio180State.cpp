@@ -61,4 +61,32 @@ namespace Ra180 {
         return false;
     }
 
+    bool Ra180::Radio180State::NumberKeyPressedGuard::operator()(const Event& event)
+    {
+        const KeyEvent* pKeyEvent = dynamic_cast<const KeyEvent* const>(&event);
+        if (pKeyEvent)
+        {
+            switch (pKeyEvent->GetKeyCode())
+            {
+                case ToKeyCode(HMIID::_0):
+                case ToKeyCode(HMIID::_1):
+                case ToKeyCode(HMIID::_2):
+                case ToKeyCode(HMIID::_3):
+                case ToKeyCode(HMIID::_4):
+                case ToKeyCode(HMIID::_5):
+                case ToKeyCode(HMIID::_6):
+                case ToKeyCode(HMIID::_7):
+                case ToKeyCode(HMIID::_8):
+                case ToKeyCode(HMIID::_9):
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 } // namespace Ra180

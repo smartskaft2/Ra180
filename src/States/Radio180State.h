@@ -30,6 +30,11 @@ namespace Ra180 {
 
         static bool IsNumberKeyGuard(const Event& event);
 
+        struct NumberKeyPressedGuard
+        {
+            bool operator()(const Event& event);
+        };
+
     protected:
         std::string _displayText;
         Radio180&   _radio;
