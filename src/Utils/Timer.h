@@ -63,5 +63,11 @@ namespace Ra180 {
 
     };
 
+    inline Timer& GlobalTimer()
+    {
+        static Timer timer{};
+        return timer;
+    }
+
 } // namespace Ra180
 
