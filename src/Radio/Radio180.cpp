@@ -38,3 +38,29 @@ namespace Ra180 {
     }
 
 } // namespace Ra180
+
+std::ostream& operator<<(std::ostream& os, Ra180::Radio180::HMIID hmiid)
+{
+    using HMIID = Ra180::Radio180::HMIID;
+
+    switch (hmiid)
+    {
+        case HMIID::Return:  return os << "Return";
+        case HMIID::ÄND:     return os << "ÄND";
+        case HMIID::SLT:     return os << "SLT";
+        case HMIID::_0:      return os << "_0";
+        case HMIID::_1:      return os << "_1";
+        case HMIID::_2:      return os << "_2";
+        case HMIID::_3:      return os << "_3";
+        case HMIID::_4:      return os << "_4";
+        case HMIID::_5:      return os << "_5";
+        case HMIID::_6:      return os << "_6";
+        case HMIID::_7:      return os << "_7";
+        case HMIID::_8:      return os << "_8";
+        case HMIID::_9:      return os << "_9";
+        case HMIID::_Star:   return os << "_Star";
+        case HMIID::_Square: return os << "_Square";
+        default:
+            throw std::logic_error("Unsupported HMIID for streaming operator.");
+    }
+}

@@ -35,7 +35,7 @@ namespace Ra180 {
         Mode _mode{ Mode::FRÅN };
     };
 
-    constexpr KeyCode ToKeyCode(const Radio180::HMIID hmiid)
+    constexpr KeyCode ToKeyCode(const Radio180::HMIID hmiid, const bool throwOnFailure = true)
     {
         // Looks like the numpad of the RA180 
         //
@@ -45,29 +45,61 @@ namespace Ra180 {
         //  This might be a bit confusing at first, but the aim is to
         //  practice muscle memory for those dark night. :)
         //
+        //  Unfortunately NumLock cannot be used, since it locks or unlocks the other keys.
+        // 
         //  ToDo: Make configurable
         //
         switch (hmiid)
         {
-            case Radio180::HMIID::Return:  return KeyCode::Delete;
+            case Radio180::HMIID::Return:  return KeyCode::PageDown;
             case Radio180::HMIID::ÄND:     return KeyCode::PageUp;
             case Radio180::HMIID::SLT:     return KeyCode::End;
-            case Radio180::HMIID::_0:      return KeyCode::NumPad_2;
-            case Radio180::HMIID::_1:      return KeyCode::NumPad_NumLock;
-            case Radio180::HMIID::_2:      return KeyCode::NumPad_Divide;
-            case Radio180::HMIID::_3:      return KeyCode::NumPad_Multiply;
-            case Radio180::HMIID::_4:      return KeyCode::NumPad_7;
-            case Radio180::HMIID::_5:      return KeyCode::NumPad_8;
-            case Radio180::HMIID::_6:      return KeyCode::NumPad_9;
-            case Radio180::HMIID::_7:      return KeyCode::NumPad_4;
-            case Radio180::HMIID::_8:      return KeyCode::NumPad_5;
-            case Radio180::HMIID::_9:      return KeyCode::NumPad_6;
-            case Radio180::HMIID::_Star:   return KeyCode::NumPad_1;
-            case Radio180::HMIID::_Square: return KeyCode::NumPad_3;
+            case Radio180::HMIID::_0:      return KeyCode::NumPad_Decimal;
+            case Radio180::HMIID::_1:      return KeyCode::NumPad_7;
+            case Radio180::HMIID::_2:      return KeyCode::NumPad_8;
+            case Radio180::HMIID::_3:      return KeyCode::NumPad_9;
+            case Radio180::HMIID::_4:      return KeyCode::NumPad_4;
+            case Radio180::HMIID::_5:      return KeyCode::NumPad_5;
+            case Radio180::HMIID::_6:      return KeyCode::NumPad_6;
+            case Radio180::HMIID::_7:      return KeyCode::NumPad_1;
+            case Radio180::HMIID::_8:      return KeyCode::NumPad_2;
+            case Radio180::HMIID::_9:      return KeyCode::NumPad_3;
+            case Radio180::HMIID::_Star:   return KeyCode::NumPad_0;
+            case Radio180::HMIID::_Square: return KeyCode::NumPad_Return;
 
             default:
-                throw std::logic_error("Unsupported HMIID for convertion to KeyCode.");
+                if (throwOnFailure)
+                {
+                    throw std::logic_error("Unsupported HMIID to KeyCode convertion (value : " + std::to_string(static_cast<int>(hmiid)) + " )");
+                }
+                else
+                {
+                    return static_cast<KeyCode>(-1);
+                }
+        }
+    }
+
+    constexpr Radio180::HMIID ToHMIID(const KeyCode keyCode, const bool throwOnFailure = true)
+    {
+        constexpr int MAX_HMIID = static_cast<int>(Radio180::HMIID::_9);
+        for (int i{}; i <= MAX_HMIID; ++i)
+        {
+            if (keyCode == ToKeyCode(static_cast<Radio180::HMIID>(i)))
+            {
+                return static_cast<Radio180::HMIID>(i);
+            }
+        }
+
+        if (throwOnFailure)
+        {
+            throw std::logic_error("Unsupported KeyCode to HMIID convertion (value : " + std::to_string(static_cast<int>(keyCode)) + " )");
+        }
+        else
+        {
+            return static_cast<Radio180::HMIID>(-1);
         }
     }
 
 } // namespace Ra180
+
+std::ostream& operator<<(std::ostream& os, Ra180::Radio180::HMIID hmiid);
