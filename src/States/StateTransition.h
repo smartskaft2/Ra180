@@ -26,8 +26,23 @@ namespace Ra180 {
         {
             const KeyCode _keyCode;
             bool operator()(const Event& event);
-        };   
+        };
+    };
 
+    struct StateAction : public StateTransition
+    {
+        using StateTransition::GuardCallback;
+        using StateTransition::ActionCallback;
+        using StateTransition::KeyPressedGuard;
+
+        StateAction() = default;
+
+        StateAction(const Event::Type eventType,
+                    std::vector<GuardCallback> guardCallbacks,
+                    std::vector<ActionCallback> actionCallbacks)
+            : StateTransition{ eventType, guardCallbacks, actionCallbacks }
+        {
+        }
     };
 
 } // namespace Ra180

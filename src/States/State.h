@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Events/Event.h"
 #include "States/IState.h"
 #include "States/StateTransition.h"
@@ -23,8 +24,9 @@ namespace Ra180 {
     protected:
         using KeyPressedGuard = StateTransition::KeyPressedGuard;
 
-    //protected:
+    protected:
         void AddTransition(const StateTransition& transition);
+        void AddAction(const StateAction& action);
         void ClearTransitions();
 
     private:

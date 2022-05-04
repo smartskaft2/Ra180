@@ -41,6 +41,11 @@ namespace Ra180 {
         _stateTransitions.push_back(transition);
     }
 
+    void State::AddAction(const StateAction& action)
+    {
+        _stateTransitions.push_back(action);
+    }
+
     void State::ClearTransitions()
     {
         _stateTransitions.clear();
