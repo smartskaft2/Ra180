@@ -84,7 +84,7 @@ std::ostream& operator<<(std::ostream& os, const Ra180::KeyCode keyCode)
         case KeyCode::NumPad_8:         return os << "8 (NumPad)";
         case KeyCode::NumPad_9:         return os << "9 (NumPad)";
 
-        case KeyCode::NumPad_Return:    return os << "Return (NumPad)";
+        // case KeyCode::NumPad_Return:    return os << "Return (NumPad)"; <--- Windows do not differ between Return and the Numpad's Return
         case KeyCode::NumPad_Decimal:   return os << ", (NumPad)";
         case KeyCode::NumPad_Add:       return os << "+ (NumPad)";
         case KeyCode::NumPad_Subtract:  return os << "- (NumPad)";

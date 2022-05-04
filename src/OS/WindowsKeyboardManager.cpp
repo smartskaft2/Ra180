@@ -88,7 +88,7 @@ namespace Ra180 {
                 case KeyCode::NumPad_8:     return wchar = VK_NUMPAD8;
                 case KeyCode::NumPad_9:     return wchar = VK_NUMPAD9;
 
-                case KeyCode::NumPad_Return:    return wchar = VK_RETURN;
+                //case KeyCode::NumPad_Return:    return wchar = VK_RETURN; <--- Windows make no difference between Return and the numpad's return.
                 case KeyCode::NumPad_Decimal:   return wchar = VK_DECIMAL;
                 case KeyCode::NumPad_Add:       return wchar = VK_ADD;
                 case KeyCode::NumPad_Subtract:  return wchar = VK_SUBTRACT;

@@ -6,7 +6,7 @@
 
 namespace Ra180 {
 
-   enum class KeyCode
+   enum class KeyCode : unsigned int
    {
        _0, _1, _2, _3, _4, _5, _6, _7, _8, _9,
        A , B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, Å, Ä, Ö,
@@ -29,10 +29,12 @@ namespace Ra180 {
 
        NumPad_0, NumPad_1, NumPad_2, NumPad_3, NumPad_4, NumPad_5, NumPad_6, NumPad_7, NumPad_8, NumPad_9,
 
-       NumPad_Return, NumPad_Decimal, NumPad_Add, NumPad_Subtract, NumPad_Multiply, NumPad_Divide, NumPad_NumLock,
+       NumPad_Decimal, NumPad_Add, NumPad_Subtract, NumPad_Multiply, NumPad_Divide, NumPad_NumLock,
 
-       // Must be last!
-       Count
+       // Must be last of master values!
+       Count,
+
+       NumPad_Return = Return,
    };
 
    std::ostream& writeSupportedKeys(std::ostream& os, const std::function<std::ostream& (std::ostream&, const KeyCode)> appendLineCallback = nullptr);
