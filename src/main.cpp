@@ -5,14 +5,18 @@
 #include "Radio/LogDisplay.h"
 #include "States/State.h"
 #include "States/StateMachine.h"
-#include "States/FRÅN.h"
+#include "States/UserInputState.h"
+#include "States/Concrete/DAT.h"
+#include "States/Concrete/FRÅN.h"
+#include "States/Concrete/TID.h"
 #include "UI/KeyCode.h"
 #include "UI/KeyboardManager.h"
 #include "Utils/Log.h"
 #include "Utils/toString.h"
 #include "Utils/sleepUntil.h"
 #include "Utils/Timer.h"
-#include "Utils/FlashingString.h"
+
+#include "HMIIDTestState.h"
 
 #include <memory>
 #include <chrono>
@@ -36,7 +40,7 @@ int main(int argc, char* argv[])
     Radio180 radio{std::make_unique<LogDisplay>("display.txt")};
 
     StateMachine stateMachine{};
-    stateMachine.Initialize(std::make_unique<FRÅN>(radio));
+    /*stateMachine.Initialize(std::make_unique<FRÅN>(radio));*/
     
     WindowsKeyboardManager keyboardManager{ 290ms };
 
@@ -44,7 +48,12 @@ int main(int argc, char* argv[])
     auto  timePoint = std::chrono::system_clock::now() + engineRate{ 1 };
 
     Timer timer{};
-    FlashingString flashingString{ radio.GetDisplay(), timer };
+    Clock clock{};
+    clock.Initialize();
+
+    auto inputState = std::make_unique<TID>(radio); // std::make_unique<HMIIDTestState>(); //
+
+    stateMachine.Initialize(std::move(inputState));
 
     KeyCode pressedKey;
     bool aborted{ false };
@@ -64,28 +73,6 @@ int main(int argc, char* argv[])
                     RA180_LOG_DEBUG("Press [UP] to start it again, or [ESC] again to terminate the program.");
                     stateMachine.OnEvent(Event::Type::PowerOff);
                 }
-            }
-
-            else if (pressedKey == KeyCode::S)
-            {
-                if (flashingString.IsFlashing())
-                {
-                    flashingString.Stop();
-                }
-                else
-                {
-                    flashingString.Start();
-                }
-            }
-
-            else if (pressedKey == KeyCode::Delete)
-            {
-                flashingString.Pop();
-            }
-
-            else if (KeyCode::A <= pressedKey && pressedKey <= KeyCode::Ö)
-            {
-                flashingString.Append(toString(pressedKey));
             }
 
             // Else, notify current state of key event
