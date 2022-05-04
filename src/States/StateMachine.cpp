@@ -14,8 +14,9 @@ namespace Ra180 {
     {
         if (!_currentState)
         {
-            RA180_LOG_TRACE("State machine: Setting initial state state '{}'", pInitialState->GetName());
+            RA180_LOG_TRACE("State machine: Setting initial state '{}'", pInitialState->GetName());
             _currentState = std::move(pInitialState);
+            _currentState->Enter();
         }
         else
         {
