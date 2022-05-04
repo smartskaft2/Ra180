@@ -8,9 +8,10 @@
 namespace Ra180 {
 
     FlashingString::FlashingString(IDisplay& display, 
-                                   Timer& timer, 
+                                   Timer& timer,
+                                   std::string initialString,
                                    const std::chrono::milliseconds rate)
-        : _display(display), _timer(timer), _rate(rate)
+        : _display(display), _timer(timer), _rate(rate), _string(std::move(initialString))
     {
     }
 
@@ -18,7 +19,7 @@ namespace Ra180 {
     {
         if (_timeoutID >= 0)
         {
-            _timer.UnsetTimeout(_timeoutID);
+            _timer.StopTimeout(_timeoutID);
         }
     }
 
@@ -32,6 +33,12 @@ namespace Ra180 {
     {
         std::lock_guard<std::mutex> lock{ MutexForImmutable() };
         return _string.c_str();
+    }
+
+    std::size_t FlashingString::Size() const
+    {
+        std::lock_guard<std::mutex> lock{ MutexForImmutable() };
+        return _string.size() - _visible;
     }
 
     void FlashingString::Start()
@@ -60,7 +67,7 @@ namespace Ra180 {
                 _display.Clear();
                 _display.Print(_string);
             }
-            _timer.UnsetTimeout(_timeoutID);
+            _timer.StopTimeout(_timeoutID);
             _timeoutID = -1;
         }
         else
@@ -75,21 +82,20 @@ namespace Ra180 {
         return _timeoutID >= 0;
     }
 
+    bool FlashingString::IsFull() const
+    {
+        return Size() >= _display.Width();
+    }
+
+    bool FlashingString::IsEmpty() const
+    {
+        return Size() <= _offset;
+    }
+
     void FlashingString::Set(std::string string)
     {
         std::lock_guard<std::mutex> lock{ _mutex };
         std::swap(_string, string); 
-        _visible = false;
-    }
-
-    void FlashingString::Append(std::string_view stringView)
-    {
-        std::lock_guard<std::mutex> lock{ _mutex };
-        if (_visible && !_string.empty())
-        {
-            _string.pop_back();
-        }
-        _string.append(stringView);
         _visible = false;
     }
 
