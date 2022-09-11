@@ -1,0 +1,3 @@
+[submodule "vendor/Clementine"]
+	path = vendor/Clementine
+	url = https://github.com/smartskaft2/Clementine
