@@ -14,8 +14,6 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- PROJECT: Ra180 --
 
-local gameEnginePath = "vendor/Clementine"
-
 project "Ra180"
     kind "ConsoleApp"
     language "C++"
@@ -33,14 +31,25 @@ project "Ra180"
 
     includedirs
     {
-        "%{gameEnginePath}/Clementine/src",
-        "%{gameEnginePath}/Clementine/vendor/spdlog/include",
-        "%{gameEnginePath}/Clementine/vendor"
+        "vendor/Clementine/Clementine/vendor/spdlog/include",
+        "vendor/Clementine/Clementine/vendor",
+        "vendor/Clementine/Clementine/src"
+    }
+
+    libdirs
+    {
+        "vendor/Clementine/bin/" .. outputdir .. "/Clementine",
+        "vendor/Clementine/Clementine/vendor/GLFW/bin/" .. outputdir .. "/GLFW",
+        "vendor/Clementine/Clementine/vendor/Glad/bin/" .. outputdir .. "/Glad",
+        "vendor/Clementine/Clementine/vendor/ImGui/bin/" .. outputdir .. "/ImGui"
     }
     
     links
     {
-        "Clementine"
+        "Clementine",
+        "GLFW",
+        "Glad",
+        "ImGui"
     }
     
     filter "system:windows"
